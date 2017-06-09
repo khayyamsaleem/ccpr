@@ -1,7 +1,8 @@
 ccpr
-============
+====
 
-:: 
-        python setup.py install 
-        python setup.py test
+.. code-block::
+
+    $ python setup.py install 
+    $ python setup.py test
 
