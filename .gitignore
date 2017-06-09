@@ -1,4 +1,5 @@
-*.csv
+*csv
+build/
 *.pyc
 /dist/
 /*.egg-info
