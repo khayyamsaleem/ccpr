@@ -50,15 +50,16 @@ class TimeSeries:
                 writer = csv.writer(csv_file, delimiter=",")
                 for line in data:
                     writer.writerow(line)
-        csv_writer(self.get_norm(), "normal.csv")
-        csv_writer(self.get_abnorm(), "abnormal.csv")
+        csv_writer(self.__norm, self.__abtype+"-normal.csv")
+        csv_writer(self.__abnorm, self.__abtype+"-abnormal.csv")
 
 
 
 if __name__ == "__main__":
     upt = TimeSeries(10, 0.105, 45, "uptrend")
-    pprint.PrettyPrinter(indent=4).pprint(upt.get_norm())
+    # pprint.PrettyPrinter(indent=4).pprint(upt.get_norm())
     cyc = TimeSeries(10, 0.5, 45, "cyclic")
-    pprint.PrettyPrinter(indent=4).pprint(cyc.get_abnorm())
+    # pprint.PrettyPrinter(indent=4).pprint(cyc.get_abnorm())
+    upt.to_csv()
     cyc.to_csv()
 
