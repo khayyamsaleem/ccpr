@@ -13,7 +13,7 @@ setup(name="ccpr",
       author_email="ksaleem@stevens.edu",
       license="MIT",
       packages=["ccpr"],
-      scripts=['bin/ccpr'],
+      scripts=['ccpr/bin/ccpr'],
       install_requires=[
           "matplotlib",
           "numpy"
