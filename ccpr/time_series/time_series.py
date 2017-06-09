@@ -20,7 +20,7 @@ class TimeSeries:
                 "downtrend": lambda s: s-self.__param*g.index(s),
                 "upshift": lambda s: s+self.__param,
                 "downshift": lambda s: s-self.__param,
-                "systematic": lambda s: s+self.__param*(-1)**g.index*(s),
+                "systematic": lambda s: s+self.__param*(-1)**g.index(s),
                 "cyclic": lambda s: s + self.__param*cos(2*pi*g.index(s)*0.125),
                 "stratified": lambda s: s+self.__param*s
         }
