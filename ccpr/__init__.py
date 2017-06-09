@@ -1,2 +1,1 @@
-from ccpr import time_series
-from ccpr import ts_interp
+from .time_series.time_series import TimeSeries
