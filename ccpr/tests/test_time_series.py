@@ -7,7 +7,7 @@ window = int(input("Enter window length: "))
 imbalance = int(input("Enter imbalance ratio: "))
 param = float(input("Enter parameter of abnormal pattern: "))
 
-upt = ast.TimeSeries(window, parameter, imbalance, abtype)
+upt = ast.TimeSeries(window, param, imbalance, abtype)
 #upt.to_csv()
 
 plt.plot(range(upt.get_window()), upt.get_norm()[0], 'r')
