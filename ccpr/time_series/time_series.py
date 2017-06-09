@@ -1,8 +1,6 @@
-import sys
 from numpy.random import normal as randn
 from numpy import pi
 from numpy import cos
-import pprint
 import csv
 
 class TimeSeries:
@@ -23,7 +21,7 @@ class TimeSeries:
                 "upshift": lambda s: s+self.__param,
                 "downshift": lambda s: s-self.__param,
                 "systematic": lambda s: s+self.__param*(-1)**g.index*(s),
-                "cyclic": lambda s: s+self.__param*cos(3*pi*g.index(s)*0.125),
+                "cyclic": lambda s: s + self.__param*cos(2*pi*g.index(s)*0.125),
                 "stratified": lambda s: s+self.__param*s
         }
 
