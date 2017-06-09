@@ -2,7 +2,6 @@ ccpr
 ============
 
 :: 
-    python setup.py install 
-    python setup.py test
-
+        python setup.py install 
+        python setup.py test
 
