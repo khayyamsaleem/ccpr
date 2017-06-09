@@ -16,6 +16,7 @@ setup(name="ccpr",
       scripts=['ccpr/bin/ccpr'],
       install_requires=[
           "matplotlib",
-          "numpy"
+          "numpy",
+          "csv"
       ],
       zip_safe=False)
