@@ -1,1 +1,1 @@
-from .time_series.time_series import TimeSeries
+from .control_chart.control_chart import ControlChart
