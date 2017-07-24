@@ -1,0 +1,11 @@
+MANIFEST.in
+README.rst
+setup.py
+ccpr/__init__.py
+ccpr.egg-info/PKG-INFO
+ccpr.egg-info/SOURCES.txt
+ccpr.egg-info/dependency_links.txt
+ccpr.egg-info/not-zip-safe
+ccpr.egg-info/requires.txt
+ccpr.egg-info/top_level.txt
+ccpr/bin/ccpr

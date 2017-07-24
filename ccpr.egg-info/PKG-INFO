@@ -1,0 +1,23 @@
+Metadata-Version: 1.0
+Name: ccpr
+Version: 0.1
+Summary: A library for control chart pattern recognition
+Home-page: https://github.com/khayyamsaleem/ccpr
+Author: Khayyam Saleem
+Author-email: ksaleem@stevens.edu
+License: MIT
+Description: ccpr
+        ====
+        TODO: modify CC_learn so it can take a ControlChart object
+        
+        
+        
+        only works with python3+ for now
+        
+        .. code-block::
+        
+            $ python setup.py install 
+            $ python setup.py test
+        
+        
+Platform: UNKNOWN

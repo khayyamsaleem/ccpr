@@ -1,0 +1,5 @@
+matplotlib
+setuptools
+numpy
+tensorflow
+sklearn
