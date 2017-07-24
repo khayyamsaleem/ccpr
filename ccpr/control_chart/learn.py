@@ -12,7 +12,7 @@ class CC_Learn:
                 "num_filt_2" : 14,
                 "num_filt_3" : 8,
                 "num_fc_1" : 40, #number of neurons in fully connected layer
-                "max_iterations" : 20000,
+                "max_iterations" : 5000,
                 "batch_size" : 64,
                 "dropout" : 1.0,
                 "learning_rate" : 2e-5,
@@ -161,12 +161,12 @@ class CC_Learn:
             writer = tf.summary.FileWriter("./log_tb", sess.graph)
             sess.run(tf.global_variables_initializer())
             step = 0
-            for x in range(self.hp["max_iterations"]):
+            for k in range(self.hp["max_iterations"]):
                 batch_ind = np.random.choice(self.__N, self.hp["batch_size"],replace=False)
-                if i == 0:
-                    result = sess.run([cost, accuracy], feed_dict = {x : self.X_test, y_: self.y_test, keep_prob: 1.0, bn_train : False})
+                if k == 0:
+                    result = sess.run(accuracy, feed_dict = {x : self.X_test, y_: self.y_test, keep_prob: 1.0, bn_train : False})
                     acc_test_before = result
-                if i%200 == 0:
+                if k%200 == 0:
                     result = sess.run([cost, accuracy], feed_dict = {x : self.X_train, y_ : self.y_train, keep_prob: 1.0, bn_train : False})
                     perf_collect[1, step] = acc_train = result[1]
                     cost_train = result[0]
@@ -174,14 +174,14 @@ class CC_Learn:
                     result = sess.run([accuracy,cost,merged], feed_dict={x:self.X_val, y_:self.y_val, keep_prob: 1.0, bn_train: False})
                     perf_collect[0, step] = acc_val = result[0]
                     cost_val = result[1]
-                    if i == 0: cost_ma = cost_train
-                    if i == 0: acc_ma = acc_train
+                    if k == 0: cost_ma = cost_train
+                    if k == 0: acc_ma = acc_train
                     cost_ma = 0.8*cost_ma+0.2*cost_train
                     acc_ma = 0.8*acc_ma + 0.2*acc_train
 
-                    writer.add_summary(result[2], i)
+                    writer.add_summary(result[2], k)
                     writer.flush()
-                    print("At %5.0f/%5.0f Cost: train%5.3f val%5.3f(%5.3f) Acc: train%5.3f val%5.3f(%5.3f) " % (i, self.hp["max_iterations"], cost_train, cost_val, cost_ma, acc_train, acc_val, acc_ma))
+                    print("At %5.0f/%5.0f Cost: train%5.3f val%5.3f(%5.3f) Acc: train%5.3f val%5.3f(%5.3f) " % (k, self.hp["max_iterations"], cost_train, cost_val, cost_ma, acc_train, acc_val, acc_ma))
                     step +=1
                 sess.run(train_step, feed_dict={x:self.X_train[batch_ind], y_: self.y_train[batch_ind], keep_prob: self.hp["dropout"], bn_train: True})
 
