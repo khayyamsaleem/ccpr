@@ -7,7 +7,10 @@ abtype = input("Enter abnormal pattern type: ")
 window = int(input("Enter window length: "))
 imbalance = int(input("Enter imbalance ratio: "))
 mu = float(input("Enter mean of generated data: "))
-param = float(input("Enter parameter of abnormal pattern: "))
+if abtype.strip() != "mix":
+    param = float(input("Enter parameter of abnormal pattern: "))
+else:
+    param = 0
 dp = int(input("Enter number of data points: "))
 #out = input("Enter name of output file: ")
 
