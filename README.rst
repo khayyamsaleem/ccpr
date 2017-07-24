@@ -1,5 +1,8 @@
 ccpr
 ====
+TODO: modify CC_learn so it can take a ControlChart object
+
+
 
 only works with python3+ for now
 
