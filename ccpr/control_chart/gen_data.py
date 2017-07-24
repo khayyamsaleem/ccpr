@@ -19,31 +19,34 @@ class ControlChart:
         self.__data_points = data_points+1
         self.__out = out.strip()
 
-        g = randn(0, self.__mean, self.__window).tolist()
+        g = lambda : randn(0, self.__mean, self.__window).tolist()
 
-        abtypes = {
-                "uptrend": lambda s: s+self.__param*g.index(s),
-                "downtrend": lambda s: s-self.__param*g.index(s),
-                "upshift": lambda s: s+self.__param,
-                "downshift": lambda s: s-self.__param,
-                "systematic": lambda s: s+self.__param*(-1)**g.index(s),
-                "cyclic": lambda s: s + self.__param*cos(2*pi*g.index(s)*0.125),
-                "stratified": lambda s: s+self.__param*s
-        }
+        abnormal_types = ["uptrend", "downtrend", "upshift", "downshift", "systematic", "cyclic", "stratified"]
+        def switch(p,randfn=g()):
+            abtypes = {
+                    abnormal_types[0] : lambda s: s+self.__param*randfn.index(s),
+                    abnormal_types[1]: lambda s: s-self.__param*randfn.index(s),
+                    abnormal_types[2]: lambda s: s+self.__param,
+                    abnormal_types[3]: lambda s: s-self.__param,
+                    abnormal_types[4]: lambda s: s+self.__param*(-1)**randfn.index(s),
+                    abnormal_types[5]: lambda s: s + self.__param*cos(2*pi*randfn.index(s)*0.125),
+                    abnormal_types[6]: lambda s: s+self.__param*s
+            }
+            if abtypes.get(p, -1) == -1:
+                return False
+            return list(map(abtypes.get(p, -1), randfn))
 
-        switch = lambda p: abtypes.get(p, -1)
-
-        self.__norm = [[0] + randn(0, self.__mean, self.__window).tolist() for _ in range(int(self.__norm_size*self.__data_points))]
+        self.__norm = [[0] + g() for _ in range(int(self.__norm_size*self.__data_points))]
 
         if self.__abtype == "mix":
-            self.__abnorm = [[1] + list(map(random.choice(list(abtypes.items())), g)) for _ in range(int(self.__abnorm_size*self.data_points))]
+            self.__abnorm = [[1] + switch(random.choice(abnormal_types), randfn=g()) for _ in range(int(self.__abnorm_size*self.data_points))]
         else:
-            if switch(self.__abtype) == -1:
+            if not switch(self.__abtype):
                 print("invalid abnormal pattern type")
-                print("Valid types: " +str(list(abtypes.keys())+["mix"])[1:-1])
+                print("Valid types: " +str(abnormal_types+["mix"])[1:-1])
                 sys.exit(1)
 
-            self.__abnorm = [[1] + list(map(switch(self.__abtype), g)) for _ in range(int(self.__abnorm_size*self.__data_points))]
+            self.__abnorm = [[1] + switch(self.__abtype, randfn=g()) for _ in range(int(self.__abnorm_size*self.__data_points))]
 
     # def get_norm(self):
     #     return self.__norm
