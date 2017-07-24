@@ -1,1 +1,1 @@
-from .control_chart.control_chart import ControlChart
+from .control_chart.gen_data import ControlChart
