@@ -7,7 +7,7 @@ import sys
 import random
 
 class ControlChart:
-    def __init__(self, w, mu, t, r, abtype, data_points, out="data.csv"):
+    def __init__(self, w, mu, t, r, abtype, data_points, out="data"):
         """Constructor for time series object"""
         self.__window = w
         self.__mean = mu
