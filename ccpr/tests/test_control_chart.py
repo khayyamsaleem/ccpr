@@ -1,4 +1,4 @@
-from ccpr.control_chart import gen_data
+from ccpr.control_chart import gen_data,learn
 import matplotlib.pyplot as plt
 print("Usage: ControlChart(window, mean, param, imbalance_ratio, 'abtype', data_points)")
 
@@ -11,8 +11,13 @@ param = float(input("Enter parameter of abnormal pattern: "))
 dp = int(input("Enter number of data points: "))
 #out = input("Enter name of output file: ")
 
-ts = gen_data.ControlChart(window, mu, param, imbalance, abtype, dp)
+ts = gen_data.ControlChart(w=window, mu=mu, t=param, r=imbalance, abtype=abtype, data_points=dp, out="data")
 ts.to_csv()
+data = learn.CC_Learn(filename="data.csv", norm=False)
+data.input_normalize()
+data.plot()
+data.train()
+
 
 # plt.plot(range(ts.get_window()), ts.get_norm(), 'r', label="normal")
 # plt.plot(range(ts.get_window()), ts.get_abnorm(), 'b', label="abnormal")
