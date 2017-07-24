@@ -22,6 +22,15 @@ class ControlChart:
         g = lambda : randn(0, self.__mean, self.__window).tolist()
 
         abnormal_types = ["uptrend", "downtrend", "upshift", "downshift", "systematic", "cyclic", "stratified"]
+        default_params = {
+            abnormal_types[0]: 0.8,
+            abnormal_types[1]: 0.8,
+            abnormal_types[2]: 3.2,
+            abnormal_types[3]: 3.2,
+            abnormal_types[4]: 1.8,
+            abnormal_types[5]: 1.803,
+            abnormal_types[6]: 1.2
+        }
         def switch(p,randfn=g()):
             abtypes = {
                     abnormal_types[0] : lambda s: s+self.__param*randfn.index(s),
@@ -39,7 +48,11 @@ class ControlChart:
         self.__norm = [[0] + g() for _ in range(int(self.__norm_size*self.__data_points))]
 
         if self.__abtype == "mix":
-            self.__abnorm = [[1] + switch(random.choice(abnormal_types), randfn=g()) for _ in range(int(self.__abnorm_size*self.data_points))]
+            def mix_fn(f): 
+                label = abnormal_types.index(f)
+                self.__param = default_params[f]
+                return [label] + switch(f, randfn=g())
+            self.__abnorm = [mix_fn(random.choice(abnormal_types)) for _ in range(int(self.__abnorm_size*self.__data_points))]
         else:
             if not switch(self.__abtype):
                 print("invalid abnormal pattern type")
