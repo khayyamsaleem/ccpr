@@ -1,5 +1,4 @@
 matplotlib
-setuptools
-numpy
 tensorflow
 sklearn
+numpy
