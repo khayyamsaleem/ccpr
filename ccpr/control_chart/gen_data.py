@@ -61,26 +61,26 @@ class ControlChart:
 
             self.__abnorm = [[1] + switch(self.__abtype, randfn=g()) for _ in range(int(self.__abnorm_size*self.__data_points))]
 
-    # def get_norm(self):
-    #     return self.__norm
+    def get_norm_samp(self):
+        return self.__norm[0][1:]
 
-    # def get_abnorm(self):
-    #     return self.__abnorm
+    def get_abnorm_samp(self):
+        return self.__abnorm[0][1:]
 
-    # def get_window(self):
-    #     return self.__window
+    def get_window(self):
+        return self.__window
 
-    # def get_ucl(self):
-    #     return std(self.__norm)*3
+    def get_ucl_samp(self):
+        return std(self.__norm[0][1:])*3
 
-    # def get_lcl(self):
-    #     return std(self.__norm)*(-3)
+    def get_lcl_samp(self):
+        return std(self.__norm[0][1:])*(-3)
 
-    # def get_std_dev(self):
-    #     return std(self.__norm)
+    def get_std_dev_samp(self):
+        return std(self.__norm[0][1:])
 
-    # def get_mean(self):
-    #     return mean(self.__norm)
+    def get_mean_samp(self):
+        return mean(self.__norm[0][1:])
 
     def to_csv(self):
         def csv_writer(norm, abnorm, path):

@@ -1,4 +1,2 @@
 matplotlib
-tensorflow
-sklearn
 numpy

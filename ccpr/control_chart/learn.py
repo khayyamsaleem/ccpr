@@ -2,19 +2,19 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.python.framework import ops
 from tensorflow.python.ops import clip_ops
-from sklearn.cross_validation import train_test_split as split_data
+from sklearn.model_selection import train_test_split as split_data
 import matplotlib.pyplot as plt
 
 class CC_Learn:
     def __init__(self, train_test_split=70, filename="data.csv", norm=True):
         self.hp = {
-                "num_filt_1" : 16, #Number of filters in first conv layer
-                "num_filt_2" : 14,
-                "num_filt_3" : 8,
-                "num_fc_1" : 40, #number of neurons in fully connected layer
-                "max_iterations" : 5000,
-                "batch_size" : 64,
-                "dropout" : 1.0,
+                "num_filt_1" : 8, #Number of filters in first conv layer
+                "num_filt_2" : 4,
+                "num_filt_3" : 2,
+                "num_fc_1" : 12, #number of neurons in fully connected layer
+                "max_iterations" : 500,
+                "batch_size" : 16,
+                "dropout" : 0.70,
                 "learning_rate" : 2e-5,
                 "input_norm" : False
                 }
@@ -33,6 +33,7 @@ class CC_Learn:
         self.X_val = self.data_val[:,1:]
         self.X_test = self.data_test[:,1:]
         self.__N = self.X_train.shape[0]
+        print("N: " + str(self.__N))
         self.__D = self.X_train.shape[1]
         self.y_train = self.data_train[:,0]
         self.y_val = self.data_val[:,0]
@@ -73,7 +74,7 @@ class CC_Learn:
         plt.show()
 
     def train(self):
-        epochs = np.floor(self.hp["batch_size"]*self.hp["max_iterations"] / self.__N)
+        epochs = int(self.hp["batch_size"]*self.hp["max_iterations"] / self.__N)
         print("Train with approximately %d epochs" % (epochs))
 
         x = tf.placeholder("float", shape=[None, self.__D], name="Input_data")
@@ -153,7 +154,7 @@ class CC_Learn:
         for v in tvars:
             print(v.name)
 
-        perf_collect = np.zeros((3, int(np.floor(self.hp["max_iterations"] / 100))))
+        perf_collect = np.zeros((3, int(np.floor(self.hp["max_iterations"] / 10))))
         cost_ma = 0.0
         acc_ma = 0.0
 
@@ -166,7 +167,7 @@ class CC_Learn:
                 if k == 0:
                     result = sess.run(accuracy, feed_dict = {x : self.X_test, y_: self.y_test, keep_prob: 1.0, bn_train : False})
                     acc_test_before = result
-                if k%200 == 0:
+                if k%50 == 0:
                     result = sess.run([cost, accuracy], feed_dict = {x : self.X_train, y_ : self.y_train, keep_prob: 1.0, bn_train : False})
                     perf_collect[1, step] = acc_train = result[1]
                     cost_train = result[0]
@@ -176,8 +177,8 @@ class CC_Learn:
                     cost_val = result[1]
                     if k == 0: cost_ma = cost_train
                     if k == 0: acc_ma = acc_train
-                    cost_ma = 0.8*cost_ma+0.2*cost_train
-                    acc_ma = 0.8*acc_ma + 0.2*acc_train
+                    cost_ma = 0.7*cost_ma+0.3*cost_train
+                    acc_ma = 0.7*acc_ma + 0.3*acc_train
 
                     writer.add_summary(result[2], k)
                     writer.flush()
