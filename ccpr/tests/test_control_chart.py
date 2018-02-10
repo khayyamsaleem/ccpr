@@ -1,4 +1,4 @@
-from ccpr.control_chart import gen_data,learn
+import gen_data,learn
 import matplotlib.pyplot as plt
 print("Usage: ControlChart(window, mean, param, imbalance_ratio, 'abtype', data_points)")
 
